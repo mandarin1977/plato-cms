@@ -90,31 +90,21 @@ npm run dev
 
 ## 프로덕션 배포
 
+자세한 배포 방법은 **[배포 가이드 (DEPLOYMENT.md)](./DEPLOYMENT.md)** 를 참고하세요.
+
+- Railway, Fly.io, VPS, Docker 배포 방법
+- 프론트엔드에서 API 연결하는 법
+- React / Next.js / Vue 코드 예시
+- Vercel, Netlify 프론트엔드 배포
+
+### 빠른 시작
+
 ```bash
 # 빌드
 npm run build
 
 # 실행
 npm start
-```
-
-### Docker (선택)
-
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run setup
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-```bash
-docker build -t plato-cms .
-docker run -p 3000:3000 -v plato-data:/app plato-cms
 ```
 
 ## API 사용법
