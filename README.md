@@ -41,7 +41,7 @@
 ### 1. 클론
 
 ```bash
-git clone https://github.com/your-username/plato-cms.git
+git clone https://github.com/mandarin1977/plato-cms.git
 cd plato-cms
 ```
 
