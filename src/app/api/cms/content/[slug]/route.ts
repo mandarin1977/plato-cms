@@ -4,6 +4,16 @@ import { serializeEntry, parseFields } from '@/lib/cms/serialize';
 import { validateApiKey } from '@/lib/cms/api-key';
 import { parseFilterParams, applyFilters } from '@/lib/cms/query-filter';
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'x-api-key, Content-Type',
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: corsHeaders });
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
@@ -12,7 +22,7 @@ export async function GET(
   if (!authResult.valid) {
     return NextResponse.json(
       { error: '유효한 API 키가 필요합니다. x-api-key 헤더를 확인하세요.' },
-      { status: 401 }
+      { status: 401, headers: corsHeaders }
     );
   }
 
@@ -21,7 +31,7 @@ export async function GET(
     where: { slug, userId: authResult.userId },
   });
   if (!model) {
-    return NextResponse.json({ error: '콘텐츠 모델을 찾을 수 없습니다.' }, { status: 404 });
+    return NextResponse.json({ error: '콘텐츠 모델을 찾을 수 없습니다.' }, { status: 404, headers: corsHeaders });
   }
 
   const { searchParams } = request.nextUrl;
@@ -47,5 +57,5 @@ export async function GET(
     filtered: result.filtered,
     limit: filterParams.limit,
     offset: filterParams.offset,
-  });
+  }, { headers: corsHeaders });
 }
